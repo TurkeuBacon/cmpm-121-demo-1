@@ -34,7 +34,7 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 
 const upgradeHeader = document.createElement("h2");
-upgradeHeader.innerText = "UPGRADES";
+upgradeHeader.innerText = "UPGRADE SHOP";
 
 const upgradeRow = document.createElement("div");
 
