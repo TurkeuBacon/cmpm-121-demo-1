@@ -6,6 +6,7 @@ const gameName = "Goofy Ah Guy Collector";
 const GOOFY_AH_GUY = "🤓☝️";
 
 let GoofyAhCounter: number = 0;
+const autoclickDelay: number = 1000;
 
 document.title = gameName;
 
@@ -15,8 +16,7 @@ header.innerHTML = gameName;
 const goofyAhGuysButton = document.createElement("button");
 goofyAhGuysButton.innerText = GOOFY_AH_GUY;
 goofyAhGuysButton.onclick = () => {
-  GoofyAhCounter++;
-  goofyAhGuysLabel.innerText = getLabelText();
+  addGoofyAhGuys(1);
 };
 
 const goofyAhGuysLabel = document.createElement("div");
@@ -25,6 +25,13 @@ goofyAhGuysLabel.innerText = getLabelText();
 app.append(header);
 app.append(goofyAhGuysButton);
 app.append(goofyAhGuysLabel);
+
+setInterval(addGoofyAhGuys, autoclickDelay, 1);
+
+function addGoofyAhGuys(numGuys: number) {
+  GoofyAhCounter += numGuys;
+  goofyAhGuysLabel.innerText = getLabelText();
+}
 
 function getLabelText(): string {
   let text: string =
