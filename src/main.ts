@@ -16,11 +16,13 @@ const AUTO_RATE_LABEL_SIZE = "25px";
 const GOOFY_AH_COUNT_LABEL_SIZE = "35px";
 const MILLISECOND_PER_SECOND = 1000;
 const OUTPUT_DECIMAL_PLACES = 3;
+const COST_DECIMAL_PLACES = 2;
 const UPGRADES: Upgrade[] = [
   { name: "A", cost: 10, rateBoost: 0.1, purchased: 0 },
   { name: "B", cost: 100, rateBoost: 2, purchased: 0 },
   { name: "C", cost: 1000, rateBoost: 50, purchased: 0 },
 ];
+const UPGRADE_COST_GROWTH_RATE: number = 1.15;
 
 let GoofyAhCounter: number = 0;
 let autoclickRatePerSec: number = 0;
@@ -88,6 +90,7 @@ function purchaseUpgrade(index: number) {
   GoofyAhCounter -= upgrade.cost;
   autoclickRatePerSec += upgrade.rateBoost;
   upgrade.purchased++;
+  upgrade.cost *= UPGRADE_COST_GROWTH_RATE;
   UPGRADE_BUTTONS[index].innerText = getUpgradeButtonText(upgrade);
 }
 
@@ -136,7 +139,7 @@ function getUpgradeButtonText(upgrade: Upgrade): string {
   return (
     upgrade.name +
     "\n Cost: " +
-    upgrade.cost +
+    upgrade.cost.toFixed(COST_DECIMAL_PLACES) +
     " | +" +
     upgrade.rateBoost +
     "/s\nHave: " +
