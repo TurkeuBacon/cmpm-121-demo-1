@@ -4,9 +4,12 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 
 const gameName = "Goofy Ah Guy Collector";
 const GOOFY_AH_GUY = "🤓☝️";
+const MILLISECOND_PER_SECOND = 1000;
+const OUTPUT_DECIMAL_PLACES = 3;
 
 let GoofyAhCounter: number = 0;
-const autoclickDelay: number = 1000;
+const autoclickRatePerSec: number = 1;
+let lastFrameTime: number = performance.now();
 
 document.title = gameName;
 
@@ -26,7 +29,17 @@ app.append(header);
 app.append(goofyAhGuysButton);
 app.append(goofyAhGuysLabel);
 
-setInterval(addGoofyAhGuys, autoclickDelay, 1);
+window.requestAnimationFrame(frameStep);
+
+function frameStep() {
+  const thisFrameTime = performance.now();
+  const delta: number = thisFrameTime - lastFrameTime;
+
+  addGoofyAhGuys((delta / MILLISECOND_PER_SECOND) * autoclickRatePerSec);
+
+  lastFrameTime = thisFrameTime;
+  window.requestAnimationFrame(frameStep);
+}
 
 function addGoofyAhGuys(numGuys: number) {
   GoofyAhCounter += numGuys;
@@ -36,7 +49,7 @@ function addGoofyAhGuys(numGuys: number) {
 function getLabelText(): string {
   let text: string =
     "You have " +
-    GoofyAhCounter +
+    GoofyAhCounter.toFixed(OUTPUT_DECIMAL_PLACES) +
     " Goofy Ah Guy" +
     (GoofyAhCounter != 1 ? "s" : "");
 
