@@ -6,9 +6,11 @@ const gameName = "Goofy Ah Guy Collector";
 const GOOFY_AH_GUY = "🤓☝️";
 const MILLISECOND_PER_SECOND = 1000;
 const OUTPUT_DECIMAL_PLACES = 3;
+const UPGRADE_COST = 10;
+const UPGRADE_RATE_BOOST = 1;
 
 let GoofyAhCounter: number = 0;
-const autoclickRatePerSec: number = 1;
+let autoclickRatePerSec: number = 0;
 let lastFrameTime: number = performance.now();
 
 document.title = gameName;
@@ -21,12 +23,18 @@ goofyAhGuysButton.innerText = GOOFY_AH_GUY;
 goofyAhGuysButton.onclick = () => {
   addGoofyAhGuys(1);
 };
+const purchaseUpgradeButton = document.createElement("button");
+purchaseUpgradeButton.innerText = "Upgrade\nCost: " + UPGRADE_COST;
+purchaseUpgradeButton.onclick = () => {
+  purchaseUpgrade();
+};
 
 const goofyAhGuysLabel = document.createElement("div");
 goofyAhGuysLabel.innerText = getLabelText();
 
 app.append(header);
 app.append(goofyAhGuysButton);
+app.append(purchaseUpgradeButton);
 app.append(goofyAhGuysLabel);
 
 window.requestAnimationFrame(frameStep);
@@ -36,9 +44,15 @@ function frameStep() {
   const delta: number = thisFrameTime - lastFrameTime;
 
   addGoofyAhGuys((delta / MILLISECOND_PER_SECOND) * autoclickRatePerSec);
+  purchaseUpgradeButton.disabled = GoofyAhCounter < UPGRADE_COST;
 
   lastFrameTime = thisFrameTime;
   window.requestAnimationFrame(frameStep);
+}
+
+function purchaseUpgrade() {
+  GoofyAhCounter -= UPGRADE_COST;
+  autoclickRatePerSec += UPGRADE_RATE_BOOST;
 }
 
 function addGoofyAhGuys(numGuys: number) {
