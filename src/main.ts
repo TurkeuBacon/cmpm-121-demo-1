@@ -7,6 +7,7 @@ interface Upgrade {
   cost: number;
   rateBoost: number;
   purchased: number;
+  description: string;
 }
 
 const gameName = "Goofy Ah Guy Collector";
@@ -18,9 +19,42 @@ const MILLISECOND_PER_SECOND = 1000;
 const OUTPUT_DECIMAL_PLACES = 3;
 const COST_DECIMAL_PLACES = 2;
 const UPGRADES: Upgrade[] = [
-  { name: "🦐\nHumorous Rice Frier", cost: 10, rateBoost: 0.1, purchased: 0 },
-  { name: "🐍\nSilly Danger Noodle", cost: 100, rateBoost: 2, purchased: 0 },
-  { name: "🐙\nGlub Tubus Wepple", cost: 1000, rateBoost: 50, purchased: 0 },
+  {
+    name: "🦐\nHumorous Rice Frier",
+    cost: 10,
+    rateBoost: 0.1,
+    purchased: 0,
+    description: "You're telling me... a SHRIMP fried this rice???",
+  },
+  {
+    name: "🐍\nSilly Danger Noodle",
+    cost: 100,
+    rateBoost: 2,
+    purchased: 0,
+    description: "Silly little man. If not friend, why friend shaped?",
+  },
+  {
+    name: "🐀\nJeff",
+    cost: 500,
+    rateBoost: 25,
+    purchased: 0,
+    description: "My man Jeff. A mischevious fella. Goofy man extraordinaire.",
+  },
+  {
+    name: "🎟\nTicket to silly town",
+    cost: 2500,
+    rateBoost: 100,
+    purchased: 0,
+    description: "A one way trip. Goofy will be all you know. For all time.",
+  },
+  {
+    name: "🐙\nGlub Tubus Wepple",
+    cost: 100000,
+    rateBoost: 314159,
+    purchased: 0,
+    description:
+      "The silliest of Bois. No one in the world can resist their silly-goofy aura.",
+  },
 ];
 const UPGRADE_COST_GROWTH_RATE: number = 1.15;
 
@@ -46,6 +80,7 @@ for (let i = 0; i < UPGRADES.length; i++) {
     purchaseUpgrade(i);
     autoRateLabel.innerText = getAutoRateText();
   };
+  purchaseButton.title = UPGRADES[i].description;
   UPGRADE_BUTTONS.push(purchaseButton);
   upgradeRow.appendChild(purchaseButton);
 }
@@ -125,10 +160,11 @@ function getAutoRateText(): string {
     "Collecting " +
     autoclickRatePerSec.toFixed(OUTPUT_DECIMAL_PLACES) +
     " Goofy Ah Guy" +
-    (GoofyAhCounter != 1 ? "s" : "") +
+    (autoclickRatePerSec != 1 ? "s" : "") +
     "/second";
 
-  const exclamations = GoofyAhCounter > 0 ? Math.log(GoofyAhCounter) : 0;
+  const exclamations =
+    autoclickRatePerSec > 0 ? Math.log(autoclickRatePerSec) : 0;
   for (let i = 0; i < exclamations; i++) {
     text += "!";
   }
